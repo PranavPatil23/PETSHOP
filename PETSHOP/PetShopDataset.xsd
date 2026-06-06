@@ -1,0 +1,303 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:Locale="">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Users">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="UserID" type="xs:int" />
+              <xs:element name="UserName">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Password">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Category">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CategoryID" type="xs:int" />
+              <xs:element name="CategoryName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Product">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ProductID" type="xs:int" />
+              <xs:element name="ProductName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Quantity" type="xs:int" minOccurs="0" />
+              <xs:element name="UnitPrice" type="xs:float" minOccurs="0" />
+              <xs:element name="Margin" type="xs:int" minOccurs="0" />
+              <xs:element name="ReorderLevel" type="xs:short" minOccurs="0" />
+              <xs:element name="SubCategoryID" type="xs:int" />
+              <xs:element name="MfgDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ExpDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="CompanyID" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="VendorTypes">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="VendorTypeID" type="xs:int" />
+              <xs:element name="VendorTypeName">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Vendors">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="VendorID" type="xs:int" />
+              <xs:element name="VendorName">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Address">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Phone">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="13" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="VendorTypeID" type="xs:int" />
+              <xs:element name="NetTotal" msdata:ReadOnly="true" msdata:Expression="IsNull(Sum(Child.NetTotal), 0.00)" type="xs:double" minOccurs="0" />
+              <xs:element name="Due" msdata:ReadOnly="true" msdata:Expression="IsNull(Sum(Child.Due), 0.00)" type="xs:double" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Orders">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="OrderID" type="xs:int" />
+              <xs:element name="OrderDate" type="xs:dateTime" />
+              <xs:element name="VendorID" type="xs:int" />
+              <xs:element name="StatusID" type="xs:int" minOccurs="0" />
+              <xs:element name="UpdateStock" type="xs:int" minOccurs="0" />
+              <xs:element name="OrderTotal" msdata:ReadOnly="true" msdata:Expression="IsNull(Sum(Child (Orders2OrderDetails).LineTotal), 0)" type="xs:double" minOccurs="0" />
+              <xs:element name="SGST" msdata:ReadOnly="true" msdata:Expression="IsNull((OrderTotal * 18 ) / 100, 0)" type="xs:double" minOccurs="0" />
+              <xs:element name="CGST" msdata:ReadOnly="true" msdata:Expression="IsNull((OrderTotal * 18 ) / 100, 0)" type="xs:double" minOccurs="0" />
+              <xs:element name="NetTotal" msdata:ReadOnly="true" msdata:Expression="IsNull(OrderTotal + SGST + CGST, 0)" type="xs:double" minOccurs="0" />
+              <xs:element name="OrderPaid" msdata:ReadOnly="true" msdata:Expression="IsNull(Sum(Child(Orders2Payments).Amount), 0.00)" type="xs:double" minOccurs="0" />
+              <xs:element name="Due" msdata:ReadOnly="true" msdata:Expression="NetTotal - OrderPaid" type="xs:double" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="OrderDetails">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="OrderID" type="xs:int" />
+              <xs:element name="ProductID" type="xs:int" />
+              <xs:element name="Quantity" type="xs:int" />
+              <xs:element name="UnitPrice" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Margin" type="xs:int" minOccurs="0" />
+              <xs:element name="MfgDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ExpDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Rate" msdata:ReadOnly="true" msdata:Expression="UnitPrice + (UnitPrice * Margin) / 100" type="xs:double" minOccurs="0" />
+              <xs:element name="LineTotal" msdata:ReadOnly="true" msdata:Expression="Quantity * Rate" type="xs:double" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Payments">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PaymentID" type="xs:int" />
+              <xs:element name="PaymentDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ModeID" type="xs:int" minOccurs="0" />
+              <xs:element name="Amount" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OrderID" type="xs:int" minOccurs="0" />
+              <xs:element name="Description" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Status">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="StatusID" type="xs:int" />
+              <xs:element name="StatusName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Modes">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ModeID" type="xs:int" />
+              <xs:element name="ModeName">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="SubCategory">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SubCategoryID" type="xs:int" />
+              <xs:element name="SubCategoryName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CategoryID" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Reorders">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ReorderID" type="xs:int" />
+              <xs:element name="ProductName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Quantity" type="xs:int" minOccurs="0" />
+              <xs:element name="ReorderLevel" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Company">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CompanyID" type="xs:int" />
+              <xs:element name="CompanyName">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//Users" />
+      <xs:field xpath="UserID" />
+    </xs:unique>
+    <xs:unique name="Category_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//Category" />
+      <xs:field xpath="CategoryID" />
+    </xs:unique>
+    <xs:unique name="Product_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//Product" />
+      <xs:field xpath="ProductID" />
+    </xs:unique>
+    <xs:unique name="VendorTypes_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//VendorTypes" />
+      <xs:field xpath="VendorTypeID" />
+    </xs:unique>
+    <xs:unique name="Vendors_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//Vendors" />
+      <xs:field xpath="VendorID" />
+    </xs:unique>
+    <xs:unique name="Orders_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//Orders" />
+      <xs:field xpath="OrderID" />
+    </xs:unique>
+    <xs:unique name="OrderDetails_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//OrderDetails" />
+      <xs:field xpath="OrderID" />
+      <xs:field xpath="ProductID" />
+    </xs:unique>
+    <xs:unique name="Payments_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//Payments" />
+      <xs:field xpath="PaymentID" />
+    </xs:unique>
+    <xs:unique name="Status_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//Status" />
+      <xs:field xpath="StatusID" />
+    </xs:unique>
+    <xs:unique name="Modes_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//Modes" />
+      <xs:field xpath="ModeID" />
+    </xs:unique>
+    <xs:unique name="SubCategory_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//SubCategory" />
+      <xs:field xpath="SubCategoryID" />
+    </xs:unique>
+    <xs:unique name="Reorders_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//Reorders" />
+      <xs:field xpath="ReorderID" />
+    </xs:unique>
+    <xs:unique name="Company_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//Company" />
+      <xs:field xpath="CompanyID" />
+    </xs:unique>
+    <xs:keyref name="Orders2Payments" refer="Orders_Constraint1">
+      <xs:selector xpath=".//Payments" />
+      <xs:field xpath="OrderID" />
+    </xs:keyref>
+    <xs:keyref name="Orders2OrderDetails" refer="Orders_Constraint1">
+      <xs:selector xpath=".//OrderDetails" />
+      <xs:field xpath="OrderID" />
+    </xs:keyref>
+    <xs:keyref name="Vendors2Orders" refer="Vendors_Constraint1">
+      <xs:selector xpath=".//Orders" />
+      <xs:field xpath="VendorID" />
+    </xs:keyref>
+    <xs:keyref name="VendorTypes2Vendors" refer="VendorTypes_Constraint1">
+      <xs:selector xpath=".//Vendors" />
+      <xs:field xpath="VendorTypeID" />
+    </xs:keyref>
+  </xs:element>
+</xs:schema>
